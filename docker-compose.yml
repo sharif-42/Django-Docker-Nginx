@@ -6,7 +6,22 @@ services:
     command: gunicorn website.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./django/:/usr/src/app/
-    ports:
-      - 8000:8000
+      - static_files:/usr/src/app/staticfiles
+
+    expose:
+      - 8000
+#    ports:
+#      - 8000:8000
     env_file:
       - ./.envs/dev.env
+  nginx:
+    build:
+      context: ./nginx/
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/  # to overwrite default conf.d of nginx
+      - static_files:/home/app/staticfiles  # to use the django's static file as shared volume
+
+volumes:
+  static_files:
