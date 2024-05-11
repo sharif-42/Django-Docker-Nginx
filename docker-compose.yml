@@ -22,6 +22,7 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/  # to overwrite default conf.d of nginx
       - static_files:/home/app/staticfiles  # to use the django's static file as shared volume
+      - ./nginx/etc/pwd/:/etc/pwd/          # to write the credential files to restrict http access.
 
 volumes:
   static_files:
